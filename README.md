@@ -2,6 +2,8 @@
 
 To understand how to generate and use your OpenAPI Key visit:
 
+<img src="custom.jpg" alt="custom">
+
 https://medium.com/@shashank01123/how-to-generate-and-use-openai-api-key-8307144fe21d
 
 To understand full code in a story visit:
