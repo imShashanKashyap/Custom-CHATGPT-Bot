@@ -1,25 +1,26 @@
 
 import gradio as gr #importing gradio to make an UI where we will interact with our Custom ChatBot
-from dotenv import load_dotenv #remember we created the .env file so in order to access it we need dotenv
-import os #importing os module to access env file key
-load_dotenv() #this specific fucntion helps
-openai_api_key = os.getenv("OPENAI_API_KEY")
-import warnings
-warnings.filterwarnings("ignore")
-from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from dotenv import load_dotenv #remember we created the .env file so in order to load the .env file it we need dotenv
+import os #importing os module to access .env file key
+load_dotenv() #loading the .env file key
+openai_api_key = os.getenv("OPENAI_API_KEY") #viola, our OPENAI_API_KEY is safe now
+
+import warnings #module to ignore the warnings
+warnings.filterwarnings("ignore") #just to ignore the unwanted warnings
+from llama_index import VectorStoreIndex, SimpleDirectoryReader #the real module which reads and indexes the content of all the files in the training_documents folder
 
 #to read your all the pdf or txt documents present inside training_documents directory
 def read():
-    global query_engine
-    directory_path = r'.\training_documents'
+    global query_engine #to make sure this variable is used in our chat function too to query the input
+    directory_path = r'.\training_documents' #directory where all the training documents will be there
     documents = SimpleDirectoryReader(directory_path).load_data()  #reads and loads the data for further indexing
     index = VectorStoreIndex.from_documents(documents) #index your data in chunks for a better understanding
     query_engine = index.as_query_engine() #return the answers to your queries with the help of indexed data
 
-# Initialize the history list
+# Initialize the history list, by default it should be empty as we have not input anything
 history = []
 
-
+#to interact with the chatbot
 def chat(input_query):
     global history
 
@@ -45,7 +46,7 @@ def chat(input_query):
         chat_response += f"User: {user_utterance.capitalize()}\n" #to print all the Q1,Q2.. as they are all from the User
         chat_response += f"Bot: {bot_utterance.capitalize()}\n\n" #to print all the A1,A1..as they are all from the Bot
 
-    return chat_response
+    return chat_response #it will show you the whole conversation history
 
 read() #this will run only once so that we do not train the same data every time users asks the question
 
